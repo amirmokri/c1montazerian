@@ -6,6 +6,14 @@
 <div class="container mt-5">
     <h2 class="text-center mb-4">🛒 سبد خرید شما</h2>
 
+    {% if message %}
+    <div class="alert alert-success text-center">{{ message }}</div>
+    {% endif %}
+
+    {% if error %}
+    <div class="alert alert-danger text-center">{{ error }}</div>
+    {% endif %}
+
     {% if cart.products.all %}
     <div class="table-responsive">
         <table class="table table-bordered text-center align-middle">
@@ -19,14 +27,12 @@
             </thead>
             <tbody>
                 {% for item in cart.products.all %}
-                <tr id="product-row-{{ item.id }}">
-                    <td>
-                        <img src="{{ item.main_image.url }}" alt="{{ item.name }}" class="img-fluid" style="max-width: 100px;">
-                    </td>
+                <tr>
+                    <td><img src="{{ item.image.url }}" alt="{{ item.name }}" class="img-fluid" style="max-width: 100px;"></td>
                     <td>{{ item.name }}</td>
                     <td>{{ item.price }} تومان</td>
                     <td>
-                        <form method="POST" action="{% url 'remove_product' item.id %}" class="remove-product-form">
+                        <form method="POST" action="{% url 'remove_product' item.id %}">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-danger btn-sm">حذف</button>
                         </form>
@@ -37,33 +43,27 @@
         </table>
     </div>
 
-    <p class="text-center mt-3 text-muted">
-        پس از تایید سبد خرید و آدرس، همکاران ما برای تایید این سفارش تماس خواهند گرفت.
-    </p>
-
     <div class="row">
         <div class="col-md-6 offset-md-3">
-            <p class="h5 text-end">💰 مجموع: <span id="total-price">{{ cart.total_price }}</span> تومان</p>
-            
-            <form method="POST" id="order-form" action="{% url 'cart' %}">
+            <p class="h5 text-end">💰 مجموع: <span>{{ cart.total_price }}</span> تومان</p>
+
+            <form method="POST">
                 {% csrf_token %}
                 <div class="mb-3">
                     <label for="address" class="form-label">📍 آدرس تحویل</label>
-                    <input type="text" name="address" id="address" class="form-control" placeholder="آدرس را وارد کنید..." required>
-                    <button type="button" class="btn btn-outline-primary mt-2 w-100" onclick="getLocation()">📌 انتخاب لوکیشن من</button>
+                    <input type="text" name="address" id="address" class="form-control" placeholder="آدرس خود را وارد کنید..." required>
                 </div>
-                <button type="submit" class="btn btn-success w-100">✅ ثبت سفارش</button>
+                <button type="submit" class="btn btn-success w-100 fw-bold">✅ ثبت سفارش</button>
             </form>
         </div>
     </div>
-
-    <!-- پیام تأیید سفارش -->
-    <div id="order-confirmation" class="alert alert-success text-center mt-4" style="display: none;"></div>
-
     {% else %}
     <p class="text-center text-muted">🛒 سبد خرید شما خالی است.</p>
     {% endif %}
 </div>
+
+
+
 
 <script>
 // حذف محصول با استفاده از AJAX

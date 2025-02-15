@@ -72,21 +72,38 @@ def product_detail(request, product_id):
 @login_required(login_url='/login/?next=/cart/')
 def cart_view(request):
     cart = get_active_cart(request.user)
+    message = None
+    error = None
+
     if request.method == 'POST':
         address = request.POST.get('address')
+
         if not address:
-            return JsonResponse({"success": False, "error": "آدرس را وارد کنید!"})
-        
-        # Create an order
-        phone_number = request.user.profile.phone_number
-        order = Order.objects.create(user=request.user, address=address, total_price=cart.total_price, phone_number=phone_number)
-        order.products.set(cart.products.all())
-        cart.products.clear()  # Empty the cart after creating the order
-        cart.is_confirmed = True
-        cart.save()
-        
-        return JsonResponse({"success": True, "message": "سفارش شما ثبت شد!"})
-    return render(request, 'store/cart.html', {'cart': cart})
+            error = "⚠️ لطفاً آدرس خود را وارد کنید!"
+        elif cart.products.count() == 0:
+            error = "❌ سبد خرید شما خالی است!"
+        else:
+            # ایجاد سفارش
+            phone_number = request.user.profile.phone_number
+            if not phone_number:
+                error = "⚠️ لطفاً شماره تلفن خود را در پروفایل کاربری وارد کنید!"
+            else:
+                order = Order.objects.create(
+                    user=request.user,
+                    address=address,
+                    total_price=cart.total_price,
+                    phone_number=phone_number
+                )
+                order.products.set(cart.products.all())
+
+                # پاک کردن سبد خرید پس از ثبت سفارش
+                cart.products.clear()
+                cart.is_confirmed = True
+                cart.save()
+
+                message = "✅ سفارش شما با موفقیت ثبت شد! همکاران ما در اسرع وقت برای تأیید نهایی و هماهنگی ارسال با شما تماس خواهند گرفت."
+
+    return render(request, 'store/cart.html', {'cart': cart, 'message': message, 'error': error})
 
 def register_view(request):
     if request.method == "POST":
@@ -144,16 +161,16 @@ def get_active_cart(user):
 @require_POST
 def add_to_cart(request, product_id):
     if not request.user.is_authenticated:
-        # Return an error JSON response for visitors who are not logged in.
-        return JsonResponse({
-            'success': False,
-            'error': 'برای افزودن به سبد خرید، لطفا ابتدا وارد حساب کاربری شوید.'
-        }, status=403)
+        messages.error(request, "برای افزودن به سبد خرید، لطفاً ابتدا وارد حساب کاربری شوید.")
+        return redirect("login")
+
     product = get_object_or_404(Product, id=product_id)
     cart = get_active_cart(request.user)
     cart.products.add(product)
     cart.update_total_price()
-    return JsonResponse({'success': True, 'total_price': cart.total_price, 'product_id': product_id})
+
+    messages.success(request, f"✅ {product.name} به سبد خرید اضافه شد!")
+    return redirect("cart_view")
 
 @require_POST
 @login_required
@@ -162,7 +179,9 @@ def remove_product(request, product_id):
     cart = get_active_cart(request.user)
     cart.products.remove(product)
     cart.update_total_price()
-    return JsonResponse({'success': True, 'total_price': cart.total_price, 'product_id': product_id})
+
+    messages.success(request, f"❌ {product.name} از سبد خرید حذف شد.")
+    return redirect("cart_view")
 
 @csrf_exempt
 @require_POST
@@ -179,6 +198,9 @@ def place_order(request):
 
     # ایجاد سفارش
     phone_number = request.user.profile.phone_number
+    if not phone_number:
+        return JsonResponse({"success": False, "error": "⚠️ لطفاً شماره تلفن خود را در پروفایل کاربری وارد کنید!"})
+
     order = Order.objects.create(user=request.user, address=address, total_price=cart.total_price, phone_number=phone_number)
     order.products.set(cart.products.all())
 
