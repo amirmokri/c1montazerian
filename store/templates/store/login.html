@@ -1,0 +1,62 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block title %}ورود{% endblock %}
+{% block content %}
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card login-card shadow-lg p-4 w-100">
+        <h2 class="text-center mb-4 fw-bold text-primary">🔑 ورود به حساب</h2>
+
+        <!-- هشدار در صورتی که کاربر از صفحه سبد خرید هدایت شده باشد -->
+        {% if next == "/cart/" %}
+        <div class="alert alert-warning text-center">
+            ⛔️ برای دسترسی به سبد خرید، لطفاً ابتدا وارد حساب خود شوید یا ثبت‌نام کنید.
+        </div>
+        {% endif %}
+
+        <!-- نمایش پیام‌های خطا -->
+        {% if messages %}
+        <div class="alert alert-danger text-center">
+            {% for message in messages %}
+                ❌ {{ message }}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- فرم ورود -->
+        <form method="POST" class="w-100">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}">
+
+            <div class="mb-3">
+                <label for="username" class="form-label">👤 نام کاربری</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    <input type="text" name="username" class="form-control form-input" required placeholder="نام کاربری خود را وارد کنید">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">🔒 رمز عبور</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                    <input type="password" name="password" class="form-control form-input" required placeholder="****">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 fw-bold">✔️ ورود</button>
+        </form>
+
+        <hr>
+
+        <!-- لینک ثبت‌نام -->
+        <div class="text-center">
+            <p>📌 حساب کاربری ندارید؟</p>
+            <a href="{% url 'register' %}" class="btn btn-outline-success w-100">
+                ثبت‌نام کنید
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

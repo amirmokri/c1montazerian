@@ -1,0 +1,823 @@
+/* Global Variables & Base Styles */
+:root {
+    --primary-color: #2962ff;
+    --secondary-color: #455a64;
+    --hover-color: #1565c0;
+    --accent-color: #ff6f61;
+    --background-color: #f5f7fa;
+    --text-color: #333;
+    --card-radius: 10px;
+    --transition-duration: 0.3s;
+    --box-shadow-light: 0 8px 16px rgba(0, 0, 0, 0.15);
+    --box-shadow-medium: 0px 10px 30px rgba(0, 0, 0, 0.15);
+    --box-shadow-heavy: 0px 5px 20px rgba(0, 123, 255, 0.3);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'vazir', Arial, sans-serif;
+    background: linear-gradient(135deg, #FFBE98, #c3cfe2);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #ffffff;
+    padding: 15px 0;
+    border-bottom: 2px solid #f1f1f1;
+    transition: all var(--transition-duration) ease-in-out;
+}
+
+.navbar-brand {
+    font-size: 22px;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color var(--transition-duration) ease;
+}
+
+.navbar-brand:hover {
+    color: #007bff;
+}
+
+.navbar-nav .nav-link {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-color);
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: color var(--transition-duration) ease, transform var(--transition-duration) ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #007bff;
+    transform: scale(1.1);
+}
+
+.navbar-toggler {
+    border: none;
+    outline: none;
+    padding: 5px;
+    transition: box-shadow var(--transition-duration) ease;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.navbar-nav .nav-link::before {
+    content: "✨";
+    opacity: 0;
+    transition: opacity var(--transition-duration) ease-in-out;
+}
+
+.navbar-nav .nav-link:hover::before {
+    opacity: 1;
+}
+
+@media (max-width: 992px) {
+    .navbar-nav {
+        text-align: center;
+    }
+    .navbar-nav .nav-link {
+        justify-content: center;
+    }
+}
+
+/* Image Styling */
+.img-fluid,
+.product-image,
+.carousel-inner img {
+    transition: transform var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+}
+
+.img-fluid:hover,
+.product-image:hover,
+.carousel-inner img:hover {
+    transform: scale(1.03);
+    box-shadow: var(--box-shadow-light);
+}
+
+.product-image {
+    height: 250px;
+    object-fit: cover;
+}
+
+.carousel-inner {
+    border-radius: 20px;
+    overflow: hidden;
+    max-width: 95%;
+    margin: 0 auto;
+}
+
+.carousel-inner img {
+    max-height: 350px;
+    object-fit: cover;
+    width: 100%;
+    border-radius: 20px;
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: var(--card-radius);
+    box-shadow: var(--box-shadow-light);
+    margin-bottom: 20px;
+    transition: transform var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--box-shadow-light);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: var(--card-radius);
+    border-top-right-radius: var(--card-radius);
+}
+
+/* Buttons */
+.btn {
+    padding: 12px 24px;
+    transition: background-color var(--transition-duration) ease, transform var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: var(--hover-color);
+}
+
+.btn-outline-primary {
+    border-radius: 8px;
+    border: 2px solid #007bff;
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-accent {
+    background-color: var(--accent-color);
+    border: none;
+}
+
+.btn-accent:hover {
+    background-color: #e65d54;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.btn-outline-success {
+    border-radius: 8px;
+    border: 2px solid #28a745;
+    color: #28a745;
+}
+
+.btn-outline-success:hover {
+    background: #28a745;
+    color: white;
+}
+
+/* Form Controls */
+.form-control {
+    border-radius: var(--card-radius);
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    transition: border-color var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(41, 98, 255, 0.25);
+}
+
+.input-group-text {
+    background: #e9ecef;
+    border-radius: 8px 0 0 8px;
+}
+
+/* Responsive Tweaks */
+@media (max-width: 768px) {
+    .navbar-nav {
+        margin-top: 1rem;
+    }
+    
+    #searchBox {
+        width: 90%;
+    }
+
+    .input-group {
+        flex-direction: column;
+    }
+
+    .form-control, .form-select, .btn-primary {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+/* Order Process */
+.order-process {
+    background-color: #ffffff;
+    padding: 50px 20px;
+    border-radius: 15px;
+    box-shadow: var(--box-shadow-medium);
+    text-align: right;
+    transition: transform var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+}
+
+.order-process:hover {
+    transform: scale(1.02);
+}
+
+.order-process h2 {
+    font-size: 28px;
+    color: var(--text-color);
+}
+
+.order-steps {
+    font-size: 18px;
+    color: #444;
+    line-height: 1.8;
+    padding-left: 0;
+}
+
+.order-steps li {
+    margin-bottom: 10px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.order-steps li::before {
+    content: "✅";
+    margin-left: 10px;
+    color: #28a745;
+    font-size: 20px;
+}
+
+@media (max-width: 768px) {
+    .order-process {
+        text-align: center;
+    }
+    .order-steps {
+        padding-left: 0;
+    }
+    .order-steps li {
+        justify-content: center;
+    }
+}
+
+/* About Section */
+.about-section {
+    background-color: #FFBE98;
+    padding: 50px 20px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: var(--box-shadow-medium);
+    margin: 20px;
+}
+
+.about-section h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--text-color);
+    margin-bottom: 20px;
+}
+
+.about-section p {
+    font-size: 18px;
+    color: #666;
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.about-section .highlights {
+    margin-top: 20px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+/* Contact Section */
+.contact-section {
+    background-color: #c3cfe2;
+    padding: 30px 20px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: var(--box-shadow-medium);
+    margin: 20px;
+}
+
+.contact-section h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--text-color);
+    margin-bottom: 15px;
+}
+
+.contact-section p {
+    font-size: 18px;
+    color: #444;
+    margin: 5px 0;
+}
+
+.contact-section a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.contact-section a:hover {
+    text-decoration: underline;
+}
+
+/* Alerts */
+.alert {
+    border-radius: 10px;
+    font-size: 0.9rem;
+    padding: 10px;
+    transition: opacity var(--transition-duration) ease-in-out;
+}
+
+.alert-success {
+    font-size: 18px;
+    padding: 15px;
+}
+
+/* Tables */
+.table {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--box-shadow-medium);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.container {
+    animation: fadeIn var(--transition-duration) ease-in-out;
+}
+
+/* Carousel */
+.carousel {
+    max-width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--box-shadow-medium);
+}
+
+.carousel-item img {
+    height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    padding: 10px;
+}
+
+/* Product Details */
+.product-details {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: var(--box-shadow-medium);
+    transition: transform var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+}
+
+.product-details:hover {
+    transform: scale(1.02);
+}
+
+.product-description {
+    margin-top: 15px;
+}
+
+.product-description h4 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.product-description p {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* Add to Cart Button */
+#add-to-cart-btn {
+    transition: all var(--transition-duration) ease-in-out;
+    font-size: 20px;
+    padding: 15px;
+}
+
+#add-to-cart-btn:hover {
+    transform: scale(1.05);
+    box-shadow: var(--box-shadow-heavy);
+}
+
+#add-to-cart-btn.btn-success {
+    background: #28a745;
+    border: none;
+    animation: scaleUp var(--transition-duration) ease-in-out;
+}
+
+@keyframes scaleUp {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1.05); }
+}
+
+/* Lightbox */
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+}
+
+.lightbox-content {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+    box-shadow: var(--box-shadow-medium);
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+/* بخش جزئیات محصول */
+.product-details {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.product-details:hover {
+    transform: scale(1.02);
+}
+
+/* توضیحات محصول */
+.product-description {
+    margin-top: 15px;
+}
+
+.product-description h4 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.product-description p {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* دکمه افزودن به سبد خرید */
+#add-to-cart-btn {
+    transition: all 0.3s ease-in-out;
+    font-size: 20px;
+    padding: 15px;
+}
+
+#add-to-cart-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 5px 20px rgba(0, 123, 255, 0.3);
+}
+
+/* افکت برای دکمه بعد از اضافه شدن به سبد */
+#add-to-cart-btn.btn-success {
+    background: #28a745;
+    border: none;
+    animation: scaleUp 0.3s ease-in-out;
+}
+
+@keyframes scaleUp {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1.05); }
+}
+
+.register-card {
+    max-width: 450px;
+    width: 100%;
+    background: white;
+    border-radius: 12px;
+    transition: all 0.3s ease-in-out;
+    padding: 20px;
+    margin: 10px;
+}
+
+/* جلوگیری از بیرون‌زدگی در صفحه‌های کوچک */
+@media (max-width: 450px) {
+    .register-card {
+        width: 90%;
+        padding: 15px;
+    }
+}
+
+/* افکت سایه برای فرم */
+.register-card:hover {
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* استایل فیلدهای ورودی */
+.form-input {
+    border-radius: 8px;
+    transition: all 0.2s;
+    padding: 12px;
+    font-size: 16px;
+}
+
+/* وقتی فیلد انتخاب شد */
+.form-input:focus {
+    border-color: #0d6efd;
+    box-shadow: 0px 0px 8px rgba(13, 110, 253, 0.3);
+}
+
+/* دکمه‌ها */
+.btn-primary {
+    background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%);
+    border: none;
+    transition: 0.3s;
+    padding: 12px;
+    font-size: 18px;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #6610f2 0%, #0d6efd 100%);
+    transform: scale(1.05);
+}
+
+/* پیام‌های هشدار */
+.alert {
+    font-size: 16px;
+    padding: 12px;
+    border-radius: 10px;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* انیمیشن ورود */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.container {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+
+.login-card {
+    max-width: 400px;
+    width: 100%;
+    background: white;
+    border-radius: 12px;
+    transition: all 0.3s ease-in-out;
+    padding: 20px;
+    margin: 10px;
+}
+
+/* واکنش‌گرایی در موبایل */
+@media (max-width: 450px) {
+    .login-card {
+        width: 90%;
+        padding: 15px;
+    }
+}
+
+/* افکت سایه برای فرم */
+.login-card:hover {
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* استایل فیلدهای ورودی */
+.form-input {
+    border-radius: 8px;
+    transition: all 0.2s;
+    padding: 12px;
+    font-size: 16px;
+}
+
+/* افکت روی فیلدها هنگام انتخاب */
+.form-input:focus {
+    border-color: #0d6efd;
+    box-shadow: 0px 0px 8px rgba(13, 110, 253, 0.3);
+}
+
+/* دکمه ورود */
+.btn-primary {
+    background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%);
+    border: none;
+    transition: 0.3s;
+    padding: 12px;
+    font-size: 18px;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #6610f2 0%, #0d6efd 100%);
+    transform: scale(1.05);
+}
+
+/* دکمه ثبت‌نام */
+.btn-outline-success {
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.btn-outline-success:hover {
+    background-color: #28a745;
+    color: white;
+}
+
+/* پیام‌های هشدار */
+.alert {
+    font-size: 16px;
+    padding: 12px;
+    border-radius: 10px;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* انیمیشن نمایش فرم */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.container {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.login-card {
+    max-width: 400px;
+    width: 100%;
+    background: white;
+    border-radius: 12px;
+    transition: all 0.3s ease-in-out;
+    padding: 20px;
+    margin: 10px;
+}
+
+/* واکنش‌گرایی در موبایل */
+@media (max-width: 576px) {
+    .login-card {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .input-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .input-group-text {
+        width: 100%;
+        text-align: center;
+    }
+
+    .form-input {
+        width: 100%;
+        margin-top: 5px;
+    }
+}
+
+/* افکت سایه برای فرم */
+.login-card:hover {
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* استایل فیلدهای ورودی */
+.form-input {
+    border-radius: 8px;
+    transition: all 0.2s;
+    padding: 12px;
+    font-size: 16px;
+    width: 100%;
+}
+
+/* افکت روی فیلدها هنگام انتخاب */
+.form-input:focus {
+    border-color: #0d6efd;
+    box-shadow: 0px 0px 8px rgba(13, 110, 253, 0.3);
+}
+
+/* دکمه ورود */
+.btn-primary {
+    background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%);
+    border: none;
+    transition: 0.3s;
+    padding: 12px;
+    font-size: 18px;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #6610f2 0%, #0d6efd 100%);
+    transform: scale(1.05);
+}
+
+/* دکمه ثبت‌نام */
+.btn-outline-success {
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.btn-outline-success:hover {
+    background-color: #28a745;
+    color: white;
+}
+
+/* پیام‌های هشدار */
+.alert {
+    font-size: 16px;
+    padding: 12px;
+    border-radius: 10px;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* انیمیشن نمایش فرم */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.container {
+    animation: fadeIn 0.5s ease-in-out;
+}

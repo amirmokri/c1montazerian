@@ -1,0 +1,60 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block title %}ثبت‌نام{% endblock %}
+{% block content %}
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card register-card shadow-lg p-4">
+        <h2 class="text-center mb-4 text-primary fw-bold">📝 ثبت‌نام در فروشگاه</h2>
+
+        {% if form.errors %}
+        <div class="alert alert-danger text-center">
+            <strong>⚠️ لطفاً خطاهای زیر را بررسی کنید:</strong>
+            <ul class="mt-2 list-unstyled">
+                {% for field in form %}
+                    {% if field.errors %}
+                        <li>❌ {{ field.label }}: {{ field.errors|striptags }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <form method="POST" class="register-form">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="id_username" class="form-label">👤 نام کاربری</label>
+                <input type="text" name="username" class="form-control form-input" id="id_username" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="id_phone_number" class="form-label">📞 شماره تلفن</label>
+                <input type="text" name="phone_number" class="form-control form-input" id="id_phone_number" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="id_password1" class="form-label">🔒 رمز عبور</label>
+                <input type="password" name="password1" class="form-control form-input" id="id_password1" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="id_password2" class="form-label">🔁 تکرار رمز عبور</label>
+                <input type="password" name="password2" class="form-control form-input" id="id_password2" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 fw-bold">✔️ ثبت‌نام</button>
+        </form>
+
+        <hr>
+
+        <div class="text-center">
+            <p>📌 قبلاً ثبت‌نام کرده‌اید؟</p>
+            <a href="{% url 'login' %}" class="btn btn-outline-success w-100">
+                ورود به حساب
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,148 @@
+{% extends "store/base.html" %}
+{% load static %}
+{% block title %}سبد خرید{% endblock %}
+{% block content %}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">🛒 سبد خرید شما</h2>
+
+    {% if cart.products.all %}
+    <div class="table-responsive">
+        <table class="table table-bordered text-center align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>تصویر</th>
+                    <th>محصول</th>
+                    <th>قیمت</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart.products.all %}
+                <tr id="product-row-{{ item.id }}">
+                    <td>
+                        <img src="{{ item.main_image.url }}" alt="{{ item.name }}" class="img-fluid" style="max-width: 100px;">
+                    </td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.price }} تومان</td>
+                    <td>
+                        <form method="POST" action="{% url 'remove_product' item.id %}" class="remove-product-form">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">حذف</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <p class="text-center mt-3 text-muted">
+        پس از تایید سبد خرید و آدرس، همکاران ما برای تایید این سفارش تماس خواهند گرفت.
+    </p>
+
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <p class="h5 text-end">💰 مجموع: <span id="total-price">{{ cart.total_price }}</span> تومان</p>
+            
+            <form method="POST" id="order-form" action="{% url 'cart' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="address" class="form-label">📍 آدرس تحویل</label>
+                    <input type="text" name="address" id="address" class="form-control" placeholder="آدرس را وارد کنید..." required>
+                    <button type="button" class="btn btn-outline-primary mt-2 w-100" onclick="getLocation()">📌 انتخاب لوکیشن من</button>
+                </div>
+                <button type="submit" class="btn btn-success w-100">✅ ثبت سفارش</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- پیام تأیید سفارش -->
+    <div id="order-confirmation" class="alert alert-success text-center mt-4" style="display: none;"></div>
+
+    {% else %}
+    <p class="text-center text-muted">🛒 سبد خرید شما خالی است.</p>
+    {% endif %}
+</div>
+
+<script>
+// حذف محصول با استفاده از AJAX
+document.querySelectorAll('.remove-product-form').forEach(function(form) {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const currentForm = this;
+        fetch(currentForm.action, {
+            method: 'POST',
+            body: new FormData(currentForm),
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                document.getElementById('product-row-' + data.product_id).remove();
+                if(data.total_price !== undefined) {
+                    document.getElementById('total-price').innerText = data.total_price;
+                }
+            } else {
+                console.error("Error:", data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("خطا در حذف محصول. لطفاً دوباره تلاش کنید.");
+        });
+    });
+});
+
+// دریافت لوکیشن جغرافیایی
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else {
+        alert("مرورگر شما از موقعیت‌یابی پشتیبانی نمی‌کند.");
+    }
+}
+
+function showPosition(position) {
+    let lat = position.coords.latitude;
+    let lon = position.coords.longitude;
+    let googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;
+    document.getElementById("address").value = `📍 موقعیت انتخابی شما: ${googleMapsUrl}`;
+}
+
+function showError(error) {
+    alert("خطا در دریافت موقعیت مکانی.");
+}
+
+// ثبت سفارش به صورت AJAX
+document.getElementById("order-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const form = this;
+    fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { "X-Requested-With": "XMLHttpRequest" }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.success) {
+            // نمایش پیام موفقیت
+            const confirmation = document.getElementById("order-confirmation");
+            confirmation.innerText = data.message;
+            confirmation.style.display = "block";
+            // Refresh the page after a short delay
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        } else {
+            alert(data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("خطا در ثبت سفارش. لطفاً دوباره تلاش کنید.");
+    });
+});
+</script>
+
+{% endblock %}
