@@ -581,128 +581,14 @@ body {
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
 }
 
-/* استایل فیلدهای ورودی */
-.form-input {
-    border-radius: 8px;
-    transition: all 0.2s;
-    padding: 12px;
-    font-size: 16px;
-}
-
-/* وقتی فیلد انتخاب شد */
-.form-input:focus {
-    border-color: #0d6efd;
-    box-shadow: 0px 0px 8px rgba(13, 110, 253, 0.3);
-}
-
-/* دکمه‌ها */
-.btn-primary {
-    background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%);
-    border: none;
-    transition: 0.3s;
-    padding: 12px;
-    font-size: 18px;
-}
-
-.btn-primary:hover {
-    background: linear-gradient(135deg, #6610f2 0%, #0d6efd 100%);
-    transform: scale(1.05);
-}
-
-/* پیام‌های هشدار */
-.alert {
-    font-size: 16px;
-    padding: 12px;
-    border-radius: 10px;
-    transition: opacity 0.3s ease-in-out;
-}
-
-/* انیمیشن ورود */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.container {
-    animation: fadeIn 0.5s ease-in-out;
-}
 
 
-.login-card {
-    max-width: 400px;
-    width: 100%;
-    background: white;
-    border-radius: 12px;
-    transition: all 0.3s ease-in-out;
-    padding: 20px;
-    margin: 10px;
-}
 
-/* واکنش‌گرایی در موبایل */
-@media (max-width: 450px) {
-    .login-card {
-        width: 90%;
-        padding: 15px;
-    }
-}
 
-/* افکت سایه برای فرم */
-.login-card:hover {
-    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
-}
 
-/* استایل فیلدهای ورودی */
-.form-input {
-    border-radius: 8px;
-    transition: all 0.2s;
-    padding: 12px;
-    font-size: 16px;
-}
 
-/* افکت روی فیلدها هنگام انتخاب */
-.form-input:focus {
-    border-color: #0d6efd;
-    box-shadow: 0px 0px 8px rgba(13, 110, 253, 0.3);
-}
 
-/* دکمه ورود */
-.btn-primary {
-    background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%);
-    border: none;
-    transition: 0.3s;
-    padding: 12px;
-    font-size: 18px;
-}
 
-.btn-primary:hover {
-    background: linear-gradient(135deg, #6610f2 0%, #0d6efd 100%);
-    transform: scale(1.05);
-}
-
-/* دکمه ثبت‌نام */
-.btn-outline-success {
-    border-radius: 8px;
-    transition: 0.3s;
-}
-
-.btn-outline-success:hover {
-    background-color: #28a745;
-    color: white;
-}
-
-/* پیام‌های هشدار */
-.alert {
-    font-size: 16px;
-    padding: 12px;
-    border-radius: 10px;
-    transition: opacity 0.3s ease-in-out;
-}
 
 /* انیمیشن نمایش فرم */
 @keyframes fadeIn {
@@ -716,19 +602,7 @@ body {
     }
 }
 
-.container {
-    animation: fadeIn 0.5s ease-in-out;
-}
 
-.login-card {
-    max-width: 400px;
-    width: 100%;
-    background: white;
-    border-radius: 12px;
-    transition: all 0.3s ease-in-out;
-    padding: 20px;
-    margin: 10px;
-}
 
 /* واکنش‌گرایی در موبایل */
 @media (max-width: 576px) {
@@ -820,4 +694,93 @@ body {
 
 .container {
     animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Card Styles */
+.login-card {
+    max-width: 400px;
+    width: 100%;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.login-card:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Form Styles */
+.form-label {
+    font-weight: bold;
+    color: #333;
+}
+
+.input-group-text {
+    background: #e9ecef;
+    border-radius: 8px 0 0 8px;
+}
+
+.form-input {
+    border-radius: 0 8px 8px 0;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-input:focus {
+    border-color: #2962ff;
+    box-shadow: 0 0 0 0.2rem rgba(41, 98, 255, 0.25);
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: #2962ff;
+    border: none;
+    padding: 12px 24px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #1565c0;
+}
+
+.btn-outline-success {
+    border-radius: 8px;
+    border: 2px solid #28a745;
+    color: #28a745;
+    transition: background-color 0.3s ease;
+}
+
+.btn-outline-success:hover {
+    background-color: #28a745;
+    color: white;
+}
+
+/* Alert Styles */
+.alert {
+    border-radius: 10px;
+    font-size: 0.9rem;
+    padding: 10px;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+    color: #856404;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+/* Responsive Tweaks */
+@media (max-width: 450px) {
+    .login-card {
+        width: 90%;
+        padding: 15px;
+    }
 }

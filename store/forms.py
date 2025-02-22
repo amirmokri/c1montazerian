@@ -3,14 +3,16 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from .models import UserProfile
 
+
 class RegisterForm(UserCreationForm):
     username = forms.CharField(
         label="نام کاربری",
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'نام کاربری'}),
         required=True
     )
     phone_number = forms.CharField(
-        max_length=15,
+        label="📞 شماره تلفن",
+        max_length=11,
         required=True,
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'مثلاً 09123456789'})
     )
@@ -19,12 +21,21 @@ class RegisterForm(UserCreationForm):
         model = User
         fields = ["username", "phone_number", "password1", "password2"]
 
+    def clean_username(self):
+        username = self.cleaned_data.get("username")
+        if User.objects.filter(username=username).exists():
+            raise forms.ValidationError("🚨 این نام کاربری قبلاً ثبت شده است!")
+        return username
+
     def clean_phone_number(self):
         phone = self.cleaned_data.get("phone_number")
+
         if not phone.isdigit() or len(phone) != 11:
             raise forms.ValidationError("📞 لطفاً شماره تلفن معتبر ۱۱ رقمی وارد کنید.")
+        
         if UserProfile.objects.filter(phone_number=phone).exists():
             raise forms.ValidationError("🚨 این شماره تلفن قبلاً ثبت شده است!")
+
         return phone
 
     def save(self, commit=True):
@@ -33,14 +44,16 @@ class RegisterForm(UserCreationForm):
             user.save()
             UserProfile.objects.create(user=user, phone_number=self.cleaned_data["phone_number"])
         return user
+    
+
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(
         label="نام کاربری",
         max_length=150,
-        widget=forms.TextInput(attrs={'class': 'form-control'})
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'نام کاربری'})
     )
     password = forms.CharField(
         label="رمز عبور",
-        widget=forms.PasswordInput(attrs={'class': 'form-control'})
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'رمز عبور'})
     )

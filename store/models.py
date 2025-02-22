@@ -38,12 +38,12 @@ class Cart(models.Model):
         self.total_price = sum(product.price for product in self.products.all())
         self.save()
 
-class Order(models.Model):
+class Order(models.Model): 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
     products = models.ManyToManyField(Product)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     address = models.TextField()
-    phone_number = models.CharField(max_length=15)
+    phone_number = models.CharField(max_length=15, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -51,7 +51,7 @@ class Order(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    phone_number = models.CharField(max_length=15, unique=True, verbose_name="شماره تلفن")
+    phone_number = models.CharField(max_length=15, verbose_name="شماره تلفن")
 
     def __str__(self):
         return self.user.username

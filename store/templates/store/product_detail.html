@@ -50,6 +50,9 @@
                         {% if in_cart %}✔️ به سبد خرید اضافه شد{% else %}➕ افزودن به سبد خرید{% endif %}
                     </button>
                 </form>
+
+                <!-- بخش به‌روزرسانی سبد خرید -->
+                <div id="cart-update-section"></div>
             </div>
         </div>
     </div>
@@ -71,6 +74,28 @@ function openLightbox(imgElement) {
 function closeLightbox() {
     document.getElementById("lightbox").style.display = "none";
 }
+
+// AJAX برای افزودن به سبد خرید
+document.getElementById("add-to-cart-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const form = this;
+    const button = document.getElementById("add-to-cart-btn");
+    fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { "X-Requested-With": "XMLHttpRequest" }
+    })
+    .then(response => response.text())
+    .then(html => {
+        document.getElementById("cart-update-section").innerHTML = html;
+        button.innerText = "✔️ به سبد خرید اضافه شد";
+        button.disabled = true;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("خطا در افزودن به سبد خرید. لطفاً دوباره تلاش کنید.");
+    });
+});
 </script>
 
 {% endblock %}
