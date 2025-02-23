@@ -16,15 +16,16 @@ RUN apt-get update && apt-get install -y \
     libmariadb-dev \
     && apt-get clean
 
+# Copy the requirements file
+COPY requirements.txt /app/
+
 # Install Python dependencies
-COPY requirements.txt /SIWAN_STORE/
-COPY requirements.txt /tmp/requirements.txt
 RUN apt-get install -y pkg-config python3-dev default-libmysqlclient-dev build-essential
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 # Copy the project files
-COPY . /store/
+COPY . /app/
 
 # Collect static files
 RUN python manage.py collectstatic --noinput
@@ -34,8 +35,3 @@ EXPOSE 8000
 
 # Run the application
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "config.wsgi:application"]
-
-
-
-COPY requirements.txt /tmp/requirements.txt
-RUN python3 -m pip install -r /tmp/requirements.txt
