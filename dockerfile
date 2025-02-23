@@ -1,37 +1,32 @@
-# Use the official Python image from the Docker Hub
-FROM python:3.9
-
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
-# Set the working directory
+# Use the official Python runtime image
+FROM python:3.13  
+ 
+# Create the app directory
+RUN mkdir /app
+ 
+# Set the working directory inside the container
 WORKDIR /app
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    libpq-dev \
-    libmariadb-dev-compat \
-    libmariadb-dev \
-    && apt-get clean
-
-# Copy the requirements file
-COPY requirements.txt /app/
-
-# Install Python dependencies
-RUN apt-get install -y pkg-config python3-dev default-libmysqlclient-dev build-essential
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-
-# Copy the project files
+ 
+# Set environment variables 
+# Prevents Python from writing pyc files to disk
+ENV PYTHONDONTWRITEBYTECODE=1
+#Prevents Python from buffering stdout and stderr
+ENV PYTHONUNBUFFERED=1 
+ 
+# Upgrade pip
+RUN pip install --upgrade pip 
+ 
+# Copy the Django project  and install dependencies
+COPY requirements.txt  /app/
+ 
+# run this command to install all dependencies 
+RUN pip install --no-cache-dir -r requirements.txt
+ 
+# Copy the Django project to the container
 COPY . /app/
-
-# Collect static files
-RUN python manage.py collectstatic --noinput
-
-# Expose the port the app runs on
+ 
+# Expose the Django port
 EXPOSE 8000
-
-# Run the application
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "config.wsgi:application"]
+ 
+# Run Django’s development server
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
