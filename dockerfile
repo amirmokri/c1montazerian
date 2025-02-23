@@ -1,5 +1,5 @@
 # Use the official Python image from the Docker Hub
-FROM python:3.10-slim
+FROM python:3.9
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -17,12 +17,13 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean
 
 # Install Python dependencies
-COPY requirements.txt /app/
+COPY requirements.txt /siwan_store/
+RUN apt-get install -y pkg-config python3-dev default-libmysqlclient-dev build-essential
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 # Copy the project files
-COPY . /app/
+COPY . /store/
 
 # Collect static files
 RUN python manage.py collectstatic --noinput
