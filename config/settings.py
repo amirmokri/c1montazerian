@@ -31,6 +31,9 @@ SECRET_KEY = 'django-insecure-h2eg1l4l38y5bz2()y=hdburt*m66#bx_@ur0)%1=bqk_k994p
 
 ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://c1montazerian.ir',
+]
 
 # Application definition
 
