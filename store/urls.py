@@ -7,11 +7,7 @@ from .views import (
     logout_view, add_to_cart, remove_product, place_order
 )
 
-# تنظیم روتر برای APIهای REST
-router = DefaultRouter()
-router.register('products', ProductViewSet, basename='api-products')  # API برای محصولات
-router.register('carts', CartViewSet, basename='api-carts')          # API برای سبد خرید
-router.register('users', UserViewSet, basename='api-users')          # API برای کاربران
+
 
 urlpatterns = [
     # مسیرهای اصلی (HTML Templates)
@@ -28,6 +24,4 @@ urlpatterns = [
     path('login/', login_view, name='login'),  # صفحه ورود
     path('logout/', logout_view, name='logout'),  # خروج از حساب
 
-    # مسیرهای API
-    path('api/', include(router.urls)),  # دسترسی به APIهای محصولات، سبد خرید و کاربران
 ]
