@@ -1,27 +1,33 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import ProductViewSet, CartViewSet, UserViewSet
-from .views import home, product_list, product_detail, cart_view, login_view, register_view, logout_view, add_to_cart, remove_product, place_order
+from .views import (
+    ProductViewSet, CartViewSet, UserViewSet,
+    home, product_list, product_detail,
+    cart_view, login_view, register_view,
+    logout_view, add_to_cart, remove_product, place_order
+)
 
-# تنظیم روت‌های API
+# تنظیم روتر برای APIهای REST
 router = DefaultRouter()
-router.register('api/insertproducts', ProductViewSet)  # مسیر API برای محصولات
-router.register('api/carts', CartViewSet)  # مسیر API برای سبد خرید
-router.register('api/users', UserViewSet)  # مسیر API برای کاربران
+router.register('products', ProductViewSet, basename='api-products')  # API برای محصولات
+router.register('carts', CartViewSet, basename='api-carts')          # API برای سبد خرید
+router.register('users', UserViewSet, basename='api-users')          # API برای کاربران
 
 urlpatterns = [
-    # مسیرهای مربوط به API
-    path('api/', include(router.urls)),  # حالا API فقط روی /api نمایش داده میشه
-
-    # مسیرهای مربوط به قالب‌های HTML
+    # مسیرهای اصلی (HTML Templates)
     path('', home, name='home'),  # صفحه اصلی
-    path('products/', product_list, name='products'),
-    path('cart/add/<int:product_id>/', add_to_cart, name='add_to_cart'), 
-    path('remove-product/<int:product_id>/', remove_product, name='remove_product'), # صفحه لیست محصولات
-    path('product_detail/<int:product_id>/', product_detail, name='product_detail'),  # صفحه هر محصول
+    path('products/', product_list, name='products'),  # لیست محصولات
+    path('product/<int:product_id>/', product_detail, name='product_detail'),  # صفحه جزئیات محصول
     path('cart/', cart_view, name='cart_view'),  # صفحه سبد خرید
+    path('cart/add/<int:product_id>/', add_to_cart, name='add_to_cart'),  # افزودن محصول به سبد خرید
+    path('cart/remove/<int:product_id>/', remove_product, name='remove_product'),  # حذف محصول از سبد خرید
+    path('place_order/', place_order, name='place_order'),  # ثبت سفارش
+    
+    # مسیرهای احراز هویت
     path('register/', register_view, name='register'),  # صفحه ثبت‌نام
     path('login/', login_view, name='login'),  # صفحه ورود
-    path('logout/', logout_view, name='logout'),  # صفحه خروج
-    path('place_order/', place_order, name='place_order'),  # صفحه ثبت سفارش
+    path('logout/', logout_view, name='logout'),  # خروج از حساب
+
+    # مسیرهای API
+    path('api/', include(router.urls)),  # دسترسی به APIهای محصولات، سبد خرید و کاربران
 ]
