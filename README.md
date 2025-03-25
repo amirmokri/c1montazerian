@@ -133,7 +133,6 @@ curl -X POST http://localhost:8000/api/auth/login/ \
 
 ## 🤝 Contributing
 
-Amir, [3/25/2025 8:44 PM]
 1. Fork the repository  
 2. Create a new branch (git checkout -b feature/new-feature)  
 3. Commit changes (git commit -m "Add new feature")  
